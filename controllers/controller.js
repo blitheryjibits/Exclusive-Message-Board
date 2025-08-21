@@ -19,9 +19,49 @@ const controller = {
         res.render('signin');
     },
 
-    async signin(req, res) {
-        const {username, password} = req.body;
-        res.redirect('/');
+    async logout(req, res) {
+        req.logout((err) => {
+            if (err) {
+                return next(err);
+            }
+            res.redirect('/');
+        });
+    },
+
+    async createMessage(req, res) {
+        res.render('message');
+    },
+
+    async retrieveMessages(req, res) {
+        try {
+            const messages = await db.getMessages();
+            console.log(messages)
+            return messages;
+        } catch (err) {
+            res.status(500).send(err.message);
+        }
+    },
+
+    async postMessage(req, res) {
+        const {title, content} = req.body;
+        const userId = req.user.id;
+        try {
+            await db.createMessage({ title, content, userId });
+            res.redirect('/');
+        } catch (err) {
+            res.status(500).send("error creating message: " + err.message);
+        }
+    },
+
+    async addMember(req, res) {
+        const {passcode} = req.body;
+        console.log(passcode);
+        if (passcode === process.env.PASSCODE) {
+            db.addMember(req.user.id);
+            res.redirect('/');
+        } else {
+            res.status(403).send("Incorrect passcode");
+        }
     }
 }
 
