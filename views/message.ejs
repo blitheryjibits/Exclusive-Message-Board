@@ -1,0 +1,19 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+    <meta charset="UTF-8">
+    <title>Message</title>
+    </head>
+    <body>
+    <div class="container display-flex flex-column align-items-center">
+        <h1>Create a New Message</h1>
+    <form action="/user/create_message" method="POST">
+        <div class="display-flex flex-column align-items-center">
+            <input type="text" name="title" placeholder="Message Title" required>
+            <textarea name="content" placeholder="Message Content" required></textarea>
+        </div>
+        <button type="submit">Create Message</button>
+    </form>
+    </div>
+    </body>
+    </html>
